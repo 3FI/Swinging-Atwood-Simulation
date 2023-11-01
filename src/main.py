@@ -17,6 +17,7 @@ dt = 0.02
 M = 4.5
 m = 1
 
+#Taken from https://en.wikipedia.org/wiki/Swinging_Atwood%27s_machine
 def derivs(t,x):
     r,pr,theta,p_theta = x
     dr = pr/(M+m)
