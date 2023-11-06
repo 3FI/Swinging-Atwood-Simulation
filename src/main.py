@@ -1,21 +1,14 @@
-import sys
-sys.path.append('../libraries')
-
-import custom_ODE_Solver
+import libraries.custom_ODE_Solver as custom_ODE_Solver
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import matplotlib.lines as mlines
 from matplotlib import cm
 import numpy as np
 import time
 import scipy
+import scipy.constants
 import sympy
-
-x0 = np.array([ 5, 0, np.pi/4, 1  ])
-tf = 20
-dt = 0.02
-M = 4.5
-m = 1
 
 #Taken from https://en.wikipedia.org/wiki/Swinging_Atwood%27s_machine
 def derivs(t,x):
@@ -26,22 +19,52 @@ def derivs(t,x):
     dp_theta = -m*scipy.constants.g*r*np.sin(theta)
     return np.array([dr,dpr,dtheta,dp_theta])
 
+fig,ax = plt.subplots(1,2,figsize=(9,6))
+
+
+tf = 10
+dt = 0.02
+M = 4.5
+m = 1
+y0_M = 3
+x0_M = -10
+x0 = np.array([ 3, 0, np.pi/4, 0  ])
+ropeLength = y0_M + x0[0]
 
 path = custom_ODE_Solver.RK4(int(tf/dt),dt,x0,derivs)
 r = path[:,0]
+pr = path[:,1]
 theta = path[:,2]
+ptheta  = path[:,3]
 X = r*np.sin(theta); Y = -r*np.cos(theta)
+ET = pr**2 / (2*(M+m)) + ptheta**2 / (2*m*r**2) + M*scipy.constants.g*r - m*scipy.constants.g*r*np.cos(theta)
+ET = ET - ET[0]
 
-fig,ax = plt.subplots(figsize=(6,6))
-scat = ax.scatter(X[0],Y[0],s=2, label='RK4')
-ax.set(xlim=[-6, 6], ylim=[-6, 6], xlabel='x', ylabel='y')
+scat = ax[0].scatter(X[0],Y[0],s=2, label='RK4')
+mPoint = ax[0].scatter(X[0],Y[0] ,s=40*m, c='k')
+Rope = ax[0].add_line(mlines.Line2D([x0_M,x0_M,0,X[0]],[-y0_M,0,0,Y[0]],c='k'))
+MPoint = ax[0].scatter(x0_M,-y0_M ,s=40*M, c='k')
+ax[0].hlines(y=0, xmin=x0_M, xmax=0, linewidth=2, color='k')
+ax[0].set(xlim=[-12, 6], ylim=[-6, 4], xlabel='x', ylabel='y')
 
-def update(num, x, y, scat):
-    data = np.stack([x[:num], y[:num]]).T
-    scat.set_offsets(data)
-    scat.set_facecolor(cm.rainbow(np.arange(x[:num].size)))
-    return scat
+energy = (ax[1].plot(np.arange(0,tf,dt)[0],ET[0]))[0]
+ax[1].set(xlim=[0,tf], ylim=[min(ET), max(ET)], xlabel='dE', ylabel='t')
 
-test = animation.FuncAnimation(fig, update, frames=len(X), interval=10, fargs=[X, Y, scat])
-plt.show()
-#test.save('test.gif', fps=60)
+def update(num, x, y, scat, energy, mPoint, MPoint, Rope):
+    #Update the trace
+    scat.set_offsets(np.stack([x[:num], y[:num]]).T)
+    scat.set_facecolor(cm.rainbow(np.arange(x[:num].size)%300))
+
+    #Update the mass positions
+    mPoint.set_offsets(np.stack([x[num], y[num]]).T)
+    MPoint.set_offsets(np.stack([x0_M, r[num]-ropeLength]).T)
+    #Update the rope drawing
+    Rope.set_data([x0_M,x0_M,0,X[num]],[r[num]-ropeLength,0,0,Y[num]])
+
+    #Update the energy plot
+    energy.set_data(np.arange(0,tf,dt)[:num],ET[:num])
+    return scat,energy, mPoint, MPoint, Rope
+
+test = animation.FuncAnimation(fig, update, frames=len(X), interval=10, fargs=[X, Y, scat, energy, mPoint, MPoint, Rope])
+#plt.show()
+test.save('../results/test.gif', fps=60,writer="pillow")
