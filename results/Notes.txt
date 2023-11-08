@@ -1,0 +1,12 @@
+First done was 2D with only one mass swinging.
+To do so, I used RK4 (explicit).
+I tested using mu = 4.5  (ratio of mass) and while there is some degeneracy in the energy, 
+it's small enough to consider that the simulation is accurate.
+Then, by tracing the path for multiple mu we can compare with the trajectories of wikipedia.
+All are good.
+
+Then, I tried making BOTH mass swinging if we set the angle of the large mass to 0 we recover the one mass case.
+But if we do it with both, now the degeneracy in energy is significative (around 25%).
+Moreover, there seems to be some instability around r=0 as both mass starts to accelerate way too much for 
+large initial angle of M or large mu.
+A symplectic integrator is probably needed.
