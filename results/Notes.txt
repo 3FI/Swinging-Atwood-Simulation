@@ -10,3 +10,5 @@ But if we do it with both, now the degeneracy in energy is significative (around
 Moreover, there seems to be some instability around r=0 as both mass starts to accelerate way too much for 
 large initial angle of M or large mu.
 A symplectic integrator is probably needed.
+
+TODO : A study of the lifetime of the system as a function of mu and theta could be interesting.
