@@ -42,3 +42,20 @@ def leapfrog(nsteps, dt, x0, v0):
         a = -x[i] / r**3
         v[i] = v12 + a * dt/2
     return x[:,0], x[:,1], v[:,0], v[:,1]
+
+
+def euler_cromer(nsteps, dt, x0, derivs2):
+    x = np.zeros((nsteps, len(x0)))
+    x[0] = x0
+    for i in range(1, nsteps):
+        dx, d2x = derivs2(dt, x[i-1])
+        dx_new = dx + dt*d2x
+        x[i] = x[i-1] + dt*dx_new
+        '''r_new, _, theta_new, _ = x[i]
+        dr_new, _, dtheta_new, _ = dx_new
+        pr_new = (M+m)*dr_new
+        ptheta_new = m*r_new**2*dtheta_new
+        x[i][1] = pr_new
+        x[i][3] = ptheta_new'''
+
+    return x
