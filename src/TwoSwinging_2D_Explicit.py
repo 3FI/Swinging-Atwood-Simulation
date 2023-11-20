@@ -56,7 +56,7 @@ X = r*np.sin(theta_m); Y = -r*np.cos(theta_m)
 X_M = (ropeLength-r)*np.sin(theta_M) + dx_m_M; Y_M = -(ropeLength-r)*np.cos(theta_M)
 
 #Calculate the energy for each frame (equation of the hamiltonian)
-ET = pr**2 / (2*(M+m)) + ptheta_M**2 / (2*M*(ropeLength-r)**2) + ptheta_m**2 / (2*m*r**2) + M*scipy.constants.g*r*np.cos(theta_M) - m*scipy.constants.g*r*np.cos(theta_m)
+ET = pr**2 / (2*(M+m)) + ptheta_M**2 / (2*M*(ropeLength-r)**2) + ptheta_m**2 / (2*m*r**2) - M*scipy.constants.g*(ropeLength-r)*np.cos(theta_M) - m*scipy.constants.g*r*np.cos(theta_m)
 ET = 100* (ET - ET[0])/ET[0]
 
 #Dotted trace of the mass m

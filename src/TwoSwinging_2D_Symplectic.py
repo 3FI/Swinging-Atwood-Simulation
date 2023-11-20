@@ -55,8 +55,8 @@ fig,ax = plt.subplots(1,2,figsize=(9,6))
 #Initial parameters
 tf = 10         #Length of the simulation
 dt = 0.02       #Time interval of the simulation
-M =  9          #Mass of the larger mass
-m = 8          #Mass of the smaller mass
+M =  2          #Mass of the larger mass
+m = 1          #Mass of the smaller mass
 r0_M = 3        #Initial radius of mass M
 dx_m_M = -10    #Spacing between m and M on the drawing
 
@@ -86,7 +86,7 @@ X = r*np.sin(theta_m); Y = -r*np.cos(theta_m)
 X_M = (ropeLength-r)*np.sin(theta_M) + dx_m_M; Y_M = -(ropeLength-r)*np.cos(theta_M)
 
 #Calculate the energy for each frame (equation of the hamiltonian)
-ET = pr**2 / (2*(M+m)) + ptheta_M**2 / (2*M*(ropeLength-r)**2) + ptheta_m**2 / (2*m*r**2) + M*scipy.constants.g*r*np.cos(theta_M) - m*scipy.constants.g*r*np.cos(theta_m)
+ET = pr**2 / (2*(M+m)) + ptheta_M**2 / (2*M*(ropeLength-r)**2) + ptheta_m**2 / (2*m*r**2) - M*scipy.constants.g*(ropeLength-r)*np.cos(theta_M) - m*scipy.constants.g*r*np.cos(theta_m)
 ET = 100* (ET - ET[0])/ET[0]
 
 #Dotted trace of the mass m

@@ -26,6 +26,7 @@ def RK4(nsteps, dt, x0, derivs):
         f2 = derivs((i-1)*dt + dt/2, x[i-1] + f1*dt/2)
         f3 = derivs(i*dt, x[i-1] + f2*dt)
         x[i] = x[i-1] + dt*(f + 2*f1 + 2*f2 + f3)/6
+        if x[i][0] <= 0.1 : x[i][0] = 0.1
     return x
 
 def leapfrog(nsteps, dt, x0, v0):
@@ -51,6 +52,7 @@ def euler_cromer(nsteps, dt, x0, derivs2):
         dx, d2x = derivs2(dt, x[i-1])
         dx_new = dx + dt*d2x
         x[i] = x[i-1] + dt*dx_new
+        if x[i][0] <= 0.1 : x[i][0] = 0.1
         '''r_new, _, theta_new, _ = x[i]
         dr_new, _, dtheta_new, _ = dx_new
         pr_new = (M+m)*dr_new

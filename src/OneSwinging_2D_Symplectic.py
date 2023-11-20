@@ -37,8 +37,8 @@ fig,ax = plt.subplots(1,2,figsize=(9,6))
 # final time
 tf = 10
 dt = 0.02
-M = 3
-m = 2
+M = 2
+m = 1
 y0_M = 3
 x0_M = -10
 x0 = np.array([ 3, 0, np.pi/4, 0  ])

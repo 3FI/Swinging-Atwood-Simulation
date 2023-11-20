@@ -22,8 +22,8 @@ fig,ax = plt.subplots(1,2,figsize=(9,6))
 
 tf = 10
 dt = 0.02
-M = 19
-m = 1
+M = 3
+m = 2
 y0_M = 3
 x0_M = -10
 x0 = np.array([ 3, 0, np.pi/4, 0  ])
