@@ -72,14 +72,14 @@ x0 = np.array([ 3, 0, np.pi/4, 0 , np.pi/8 , 0 ])
 ropeLength = r0_M + x0[0] #Total length on BOTH sides (m & M)
 
 #SOLVE THE ODE
-path = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2)
+path, i = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2)
 
-r = path[:,0]
-pr = path[:,1]
-theta_m = path[:,2]
-ptheta_m  = path[:,3]
-theta_M = path[:,4]
-ptheta_M  = path[:,5]
+r = path[:i,0]
+pr = path[:i,1]
+theta_m = path[:i,2]
+ptheta_m  = path[:i,3]
+theta_M = path[:i,4]
+ptheta_M  = path[:i,5]
 
 #Transfer to planar coordinates
 X = r*np.sin(theta_m); Y = -r*np.cos(theta_m)
@@ -131,9 +131,9 @@ for M in [2,3,5,6,16,19,21,24]:
     m=1
     tf = 100
     x0 = np.array([ 3, 0, np.pi/2, 0 , 0, 0 ])
-    path = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2)
-    r = path[:,0]
-    theta_m = path[:,2]
+    path, j = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2)
+    r = path[:j,0]
+    theta_m = path[:j,2]
     X = r*np.sin(theta_m); Y = -r*np.cos(theta_m)
     ax[int(i/4)][i%4].plot(X,Y,'k-',lw=1,alpha=0.8)
     ax[int(i/4)][i%4].set_aspect('equal','datalim')

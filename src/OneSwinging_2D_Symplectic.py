@@ -47,13 +47,13 @@ ropeLength = y0_M + x0[0]
 nsteps = int(tf/dt)
 
 # Euler-Cromer Symplectic Integrator
-x = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2)
+x,i = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2)
 
 
-r = x[:,0]
-pr = x[:,1]
-theta = x[:,2]
-ptheta  = x[:,3]
+r = x[:i,0]
+pr = x[:i,1]
+theta = x[:i,2]
+ptheta  = x[:i,3]
 X = r*np.sin(theta); Y = -r*np.cos(theta)
 ET = np.square(pr) / (2*(M+m)) + ptheta**2 / (2*m*r**2) + M*scipy.constants.g*r - m*scipy.constants.g*r*np.cos(theta)
 ET = 100* (ET - ET[0])/ET[0]
@@ -93,9 +93,9 @@ for M in [2,3,5,6,16,19,21,24]:
     m=1
     tf = 100
     x0 = np.array([ 3, 0, np.pi/2, 0  ])
-    x = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2) #custom_ODE_Solver.RK4(int(tf/dt),dt,x0,derivs)
-    r = x[:,0]
-    theta = x[:,2]
+    x, j = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2) #custom_ODE_Solver.RK4(int(tf/dt),dt,x0,derivs)
+    r = x[:j,0]
+    theta = x[:j,2]
     X = r*np.sin(theta); Y = -r*np.cos(theta)
     ax[int(i/4)][i%4].plot(X,Y,'k-',lw=1,alpha=0.8)
     ax[int(i/4)][i%4].set_aspect('equal','datalim')
