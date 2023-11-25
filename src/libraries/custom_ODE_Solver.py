@@ -35,34 +35,44 @@ def RK4(nsteps, dt, x0, derivs):
         
     return x, break_i
 
-def leapfrog(nsteps, dt, x0, v0):
-    x = np.zeros((nsteps, 2))
-    v = np.zeros((nsteps, 2))
-    x[0] = x0
-    v[0] = v0
+def leapfrog(nsteps, dt, x0, derivs2):
+    
+    r = x0[0]
+    pr = x0[1]
+    theta_m = x0[2]
+    ptheta_m  = x0[3]
+    theta_M = x0[4]
+    ptheta_M  = x0[5]
+
+    x = np.zeros((nsteps, len(x0)))
     break_i = nsteps
+
     for i in range(1, nsteps):
-        r = (x[i-1,0]**2 + x[i-1,1]**2)**0.5
-        a = -x[i-1] / r**3
-        v12 = v[i-1] + a * dt/2
-        x[i] = x[i-1] + v12 * dt
-        r = (x[i,0]**2 + x[i,1]**2)**0.5
-        a = -x[i] / r**3
-        v[i] = v12 + a * dt/2
+        dx, d2x = derivs2((i-1)*dt, x[i-1])
+        v_12 = x[i-1][1::2] + d2x * dt/2
+        x[i][0::2] = x[i-1][0::2] + v_12 * dt
+        dx, d2x = derivs2(i*dt, x[i])
+        x[i][1::2] = v_12 + d2x * dt/2
+
         if x[i][0] <= 0.1 :
             break_i = i
             break
-    return x[:,0], x[:,1], v[:,0], v[:,1]
+    return x, break_i
 
 
 def euler_cromer(nsteps, dt, x0, derivs2):
     x = np.zeros((nsteps, len(x0)))
     x[0] = x0
+    v = np.zeros((nsteps, int(len(x0)/2)))
+    dx0, d2x0 = derivs2(dt, x0)
+    v[0] = dx0[0::2]
     break_i = nsteps
     for i in range(1, nsteps):
         dx, d2x = derivs2(dt, x[i-1])
-        dx_new = dx + dt*d2x
-        x[i] = x[i-1] + dt*dx_new
+        v[i] = v[i-1] + dt*d2x[0::2]
+        x[i][1::2] = x[i-1][1::2] + dt*d2x[1::2]
+        x[i][0::2] = x[i-1][0::2] + dt*v[i]
+
         if x[i][0] <= 0.1 : 
             break_i = i
         '''r_new, _, theta_new, _ = x[i]

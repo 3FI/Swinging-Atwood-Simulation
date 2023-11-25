@@ -10,7 +10,7 @@ import numpy as np
 tf = 100
 dt = 0.01
 maxU = 25
-U = np.linspace(1,maxU+1,200)
+U = np.linspace(1.1,maxU+1,200)
 x0 = np.array([ 3, 0, np.pi/2, 0 ])
 t = np.zeros(len(U))
 for i,u in enumerate(U):
@@ -24,8 +24,8 @@ plt.show()
 tf = 100
 dt = 0.01
 maxU = 25
-U = np.linspace(1,maxU+1,200)
-x0 = np.array([ 3, 0, np.pi/2, 0 , np.pi/2 , 0 ])
+U = np.linspace(1.1,maxU+1,200)
+x0 = np.array([ 3, 0, np.pi/2, 0 , np.pi/8 , 0 ])
 r0M = 3
 t = np.zeros(len(U))
 for i,u in enumerate(U):
