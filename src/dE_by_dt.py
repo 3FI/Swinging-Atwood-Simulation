@@ -16,7 +16,6 @@ u=3
 x0 = np.array([ 3, 0, np.pi/2, 0 ])
 
 DET = np.zeros(len(DT))
-t = np.zeros(len(DT))
 
 for i,dt in enumerate(DT):
     r,pr,theta,ptheta,dET = OneSwinging_2D_Explicit.integrate(u=u, tf=tf, dt=dt, x0=x0)
@@ -48,13 +47,13 @@ plt.show()
 
 x0 = np.array([ 3, 0, np.pi/2, 0 , np.pi/8 , 0 ])
 r0M = 3
+ropeLength = r0M + x0[0]
 
-DET = np.zeros(len(STEPS))
-t = np.zeros(len(STEPS))
+DET = np.zeros(len(DT))
 
-for i,u in enumerate(STEPS):
+for i,dt in enumerate(DT):
     r,pr,theta_m,ptheta_m,theta_M,ptheta_M,dET = TwoSwinging_2D_Explicit.integrate(u=u, tf=tf, dt=dt, x0=x0,r0M=r0M)
-    E = pr**2 / (2*(u+1)) + ptheta_M**2 / (2*u*((r0M + x0[0])-r)**2) + ptheta_m**2 / (2*1*r**2) - u*scipy.constants.g*((r0M + x0[0])-r)*np.cos(theta_M) - 1*scipy.constants.g*r*np.cos(theta_m)
+    E = pr**2 / (2*(u+1)) + ptheta_M**2 / (2*u*(ropeLength-r)**2) + ptheta_m**2 / (2*1*r**2) + u*scipy.constants.g*(ropeLength - (ropeLength-r)*np.cos(theta_M)) + 1*scipy.constants.g*(ropeLength-r*np.cos(theta_m))
     dET = E - E[0] 
     DET[i] = abs(dET[-1])
 plt.plot(STEPS,DET,label="Clamped Maximal Fractional Energy Loss")

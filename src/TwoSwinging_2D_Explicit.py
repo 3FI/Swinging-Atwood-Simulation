@@ -46,6 +46,7 @@ def integrate(u, tf, dt, x0, r0M) :
     ptheta_M  = path[:i,5]
 
     #Calculate the energy for each frame (equation of the hamiltonian)
+    #ET = pr**2 / (2*(M+m)) + ptheta_M**2 / (2*M*(ropeLength-r)**2) + ptheta_m**2 / (2*m*r**2) + M*scipy.constants.g*(ropeLength - (ropeLength-r)*np.cos(theta_M)) + m*scipy.constants.g*(ropeLength-r*np.cos(theta_m))
     ET = pr**2 / (2*(M+m)) + ptheta_M**2 / (2*M*(ropeLength-r)**2) + ptheta_m**2 / (2*m*r**2) - M*scipy.constants.g*(ropeLength-r)*np.cos(theta_M) - m*scipy.constants.g*r*np.cos(theta_m)
     dET = 100* (ET - ET[0])/ET[0]
 
