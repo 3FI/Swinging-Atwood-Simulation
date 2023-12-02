@@ -7,7 +7,7 @@ import matplotlib.lines as mlines
 from matplotlib import cm
 import numpy as np
 
-tf = 100
+tf = 500
 dt = 0.01
 maxU = 25
 U = np.linspace(1.1,maxU+1,200)
@@ -21,7 +21,7 @@ for i,u in enumerate(U):
     DET[i] = max(abs(dET))
     t[i] = len(r)*dt
 plt.plot(U,DET,label="Maximal Fractional Energy Loss")
-plt.plot(U,t/max(t),label="Fractional Time Length Of The Simulation")
+plt.plot(U,5*t/max(t),label="5 * Fractional Time Length Of The Simulation")
 
 plt.xlabel("Mu")
 plt.ylabel("Maximal dE (%)")
@@ -49,7 +49,7 @@ for i,u in enumerate(U):
     DET[i] = max(abs(dET))
     t[i] = len(r)*dt
 plt.plot(U,DET,label="Maximal Fractional Energy Loss")
-plt.plot(U,t/max(t),label="Fractional Time Length Of The Simulation")
+plt.plot(U,5*t/max(t),label="5 * Fractional Time Length Of The Simulation")
 
 plt.xlabel("Mu")
 plt.ylabel("Maximal dE (%)")
