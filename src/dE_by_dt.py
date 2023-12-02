@@ -8,7 +8,7 @@ from matplotlib import cm
 import numpy as np
 import scipy
 
-tf = 2*np.pi
+tf = np.pi
 max_nStep = 10**5
 STEPS = np.linspace(10**1,max_nStep,20) 
 DT = tf/STEPS
@@ -34,9 +34,10 @@ plt.plot(n_vec, 1e-17*n_vec**0.5,":", label=r'$N^{1/2}$')
 
 plt.xscale("log")
 plt.yscale("log")
-
+plt.legend()
 plt.xlabel("Number of Step")
-plt.ylabel("Maximal dE")
+plt.ylabel("Final dE")
+plt.title("Energy Error at the End Dependant on the Number of Steps Taken")
 
 plt.savefig('../results/dE_By_dt-1S-Explicit.png')
 plt.show()
@@ -68,9 +69,10 @@ plt.plot(n_vec, 1e-17*n_vec**0.5,":", label=r'$N^{1/2}$')
 
 plt.xscale("log")
 plt.yscale("log")
-
+plt.legend()
 plt.xlabel("Number of Step")
-plt.ylabel("Maximal dE")
+plt.ylabel("Final dE")
+plt.title("Energy Error at the End Dependant on the Number of Steps Taken")
 
 plt.savefig('../results/dE_By_dt-2S-Explicit.png')
 plt.show()

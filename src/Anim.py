@@ -21,6 +21,7 @@ def plot_anim(X,Y,X_M,Y_M,tf,dt,dET,u,x0_M,saveName="noName"):
     
     energy = (ax[1].plot(np.arange(0,tf,dt)[0],dET[0]))[0]
     ax[1].set(xlim=[0,tf], ylim=[min(dET), max(dET)], xlabel='t', ylabel='dE (%)')
+    plt.suptitle("Animation of the system for $\\mu=3$ and $\\theta=\\pi/2$")
     
     def update(num, x, y, scat, energy, mPoint, MPoint, Rope):
         #Update the trace
@@ -47,13 +48,43 @@ dt = 0.01
 x0_M = -10
 r0_M = 3
 
-x0 = np.array([ 3, 0, np.pi/4, 0  ])
+x0 = np.array([ 3, 0, np.pi/2, 0  ])
 ropeLength = r0_M + x0[0]
 
 r,pr,theta,ptheta,dET = OneSwinging_2D_Explicit.integrate(u=u, tf=tf, dt=dt, x0=x0)
 X = r*np.sin(theta); Y = -r*np.cos(theta)
 X_M = np.full(len(r),x0_M); Y_M = r - ropeLength
 plot_anim(X,Y,X_M,Y_M,tf,dt,dET,u,x0_M,"Anim_u=3-1S-Explicit.gif")
+
+
+
+u = 10
+tf = 10
+dt = 0.01
+x0_M = -10
+r0_M = 3
+
+x0 = np.array([ 3, 0, np.pi/2, 0  ])
+ropeLength = r0_M + x0[0]
+
+r,pr,theta,ptheta,dET = OneSwinging_2D_Explicit.integrate(u=u, tf=tf, dt=dt, x0=x0)
+X = r*np.sin(theta); Y = -r*np.cos(theta)
+X_M = np.full(len(r),x0_M); Y_M = r - ropeLength
+plot_anim(X,Y,X_M,Y_M,tf,dt,dET,u,x0_M,"Anim_u=10-1S-Explicit.gif")
+
+u = 1.665
+tf = 10
+dt = 0.01
+x0_M = -10
+r0_M = 3
+
+x0 = np.array([ 3, 0, np.pi/2, 0  ])
+ropeLength = r0_M + x0[0]
+
+r,pr,theta,ptheta,dET = OneSwinging_2D_Explicit.integrate(u=u, tf=tf, dt=dt, x0=x0)
+X = r*np.sin(theta); Y = -r*np.cos(theta)
+X_M = np.full(len(r),x0_M); Y_M = r - ropeLength
+plot_anim(X,Y,X_M,Y_M,tf,dt,dET,u,x0_M,"Anim_u=1,665-1S-Explicit.gif")
 
 
 #Initial : (

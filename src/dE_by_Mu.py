@@ -25,14 +25,15 @@ plt.plot(U,t/max(t),label="Fractional Time Length Of The Simulation")
 
 plt.xlabel("Mu")
 plt.ylabel("Maximal dE (%)")
-
+plt.legend()
 plt.savefig('../results/dE_By_MU-1S-Explicit.png')
 plt.show()
 
 
-plt.plot(U[t/max(t)>0.95],DET[t/max(t)>0.95],label="Maximal Fractional Energy Loss")
+plt.plot(U[t/max(t)==1],DET[t/max(t)==1],label="Maximal Fractional Energy Loss")
 plt.xlabel("Mu")
 plt.ylabel("Maximal dE (%)")
+plt.legend()
 plt.savefig('../results/dE_By_MU-Masked-1S-Explicit.png')
 plt.show()
 
@@ -45,20 +46,21 @@ t = np.zeros(len(U))
 
 for i,u in enumerate(U):
     r,pr,theta_m,ptheta_m,theta_M,ptheta_M,dET = TwoSwinging_2D_Explicit.integrate(u=u, tf=tf, dt=dt, x0=x0,r0M=r0M)
-    DET[i] = min(100,max(abs(dET)))
+    DET[i] = max(abs(dET))
     t[i] = len(r)*dt
-plt.plot(U,DET,label="Clamped Maximal Fractional Energy Loss")
+plt.plot(U,DET,label="Maximal Fractional Energy Loss")
 plt.plot(U,t/max(t),label="Fractional Time Length Of The Simulation")
 
 plt.xlabel("Mu")
 plt.ylabel("Maximal dE (%)")
-
+plt.legend()
 plt.savefig('../results/dE_By_MU-2S-Explicit.png')
 plt.show()
 
 
-plt.plot(U[t/max(t)>0.95],DET[t/max(t)>0.95],label="Maximal Fractional Energy Loss")
+plt.plot(U[t/max(t)==1],DET[t/max(t)==1],label="Maximal Fractional Energy Loss")
 plt.xlabel("Mu")
 plt.ylabel("Maximal dE (%)")
+plt.legend()
 plt.savefig('../results/dE_By_MU-Masked-2S-Explicit.png')
 plt.show()
