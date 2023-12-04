@@ -7,7 +7,6 @@ import numpy as np
 import scipy
 import scipy.constants
 
-#Taken from https://en.wikipedia.org/wiki/Swinging_Atwood%27s_machine
 def derivs(t,x):
     r,pr,theta,p_theta = x
     dr = pr/(M+m)

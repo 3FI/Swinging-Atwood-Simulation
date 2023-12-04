@@ -7,22 +7,32 @@ import matplotlib.lines as mlines
 from matplotlib import cm
 import numpy as np
 
+#This is the plot of the trajectories for multiple selected mu 
 
+#The total time over which we carry the integration
 tf = 100
+#The time interval used in the integration
 dt = 0.01
+#The initial parameters
 x0 = np.array([ 3, 0, np.pi/2, 0  ])
-r0M = 3
 
 fig,ax = plt.subplots(2,4,figsize=(20,10))
 plt.subplots_adjust(wspace = 0.3, hspace = 0.3)
 i=0
+#For each selected mu, carry the integration and do it's plot
 for u in [2,3,5,6,16,19,21,24]:    
+    #Integrate for the current mu
     r,pr,theta,ptheta,dET = OneSwinging_2D_Explicit.integrate(u=u, tf=tf, dt=dt, x0=x0)
+    #Get back to cartesian coordinates
     X = r*np.sin(theta); Y = -r*np.cos(theta)
+    #Draw the scatter of the trajectory
     sc = ax[int(i/4)][i%4].scatter(X,Y,s=0.5,c=dET,alpha=0.8,)
+
+    #Set the title
     ax[int(i/4)][i%4].set_aspect('equal','datalim')
     ax[int(i/4)][i%4].set_title('$\\mu$ = ' + str(u))
 
+    #Make the colorbar for the energy
     (plt.colorbar(sc,ax=ax[int(i/4)][i%4])).formatter.set_powerlimits((0, 0))
 
     i+=1
@@ -32,10 +42,14 @@ plt.savefig('../results/Trajectories-1S-Explicit.png')
 plt.show()
 
 
+# 2 SWINGING CASE
 
-
+#The initial parameters
 x0 = np.array([ 3, 0, np.pi/2, 0 , np.pi/8 , 0 ])
+#The inital R of M
+r0M = 3
 
+#We do the exact same as before but with the 2 swinging
 fig,ax = plt.subplots(2,4,figsize=(20,10))
 plt.subplots_adjust(wspace = 0.2)
 i=0
@@ -54,6 +68,8 @@ plt.suptitle('Trajectories of m for diverse mass ratio ($\\theta_0$ = $\\pi$  & 
 plt.savefig('../results/Trajectories-2S-Explicit.png')
 plt.show()
 
+
+#But this was only the trajectories of m. Now M also has some interesting trajectories so we do it again.
 fig,ax = plt.subplots(2,4,figsize=(20,10))
 plt.subplots_adjust(wspace = 0.2)
 i=0

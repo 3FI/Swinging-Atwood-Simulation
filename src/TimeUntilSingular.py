@@ -7,6 +7,8 @@ import matplotlib.lines as mlines
 from matplotlib import cm
 import numpy as np
 
+#This is an old file test which was then used in the dE_by_Mu analysis to provide the lifetime
+
 tf = 100
 dt = 0.01
 maxU = 25

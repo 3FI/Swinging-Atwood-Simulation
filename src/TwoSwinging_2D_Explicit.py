@@ -9,17 +9,53 @@ import scipy
 import scipy.constants
 
 
-#x0 : (
-#           ropelength of m, 
-#           momentum of ropelength of m,
-#           angle of m
-#           rotational momentum of m
-#           angle of M
-#           rotational momentum of M
-#          )
 def integrate(u, tf, dt, x0, r0M) : 
+    """
+    The integration function for the 2 swinging case
 
-    #See my notes in ref
+    Parameters
+    ----------
+    u : float
+        The mass ratio
+    tf : float
+        The time up to which we want to carry the integration if we can
+    dt : float
+        The time interval between each step
+    x0 : floats[6]
+        The inital parameters of the form :(
+            radius of m, 
+
+            momentum of radius of m,
+
+            angle of m,
+
+            angular momentum of m,
+
+            angle of M,
+
+            angular momentum of M,
+        )
+    r0M: float
+        the initial R of M
+
+    Returns
+    ----------
+    r : float[]
+        The radius for each time
+    pr : float[]
+        The radius momentum for each time
+    theta_m : float[]
+        The angle of m for each time
+    ptheta_m : float[]
+        The angular momentum of m for each time
+    theta_M : float[]
+        The angle of M for each time
+    ptheta_M : float[]
+        The angular momentum for each time
+    dET : float[]
+        The energy error in % for each time
+    """
+    #See my notes in ref or the derivations in the report
     def derivs(t,x):
         r,pr,theta_m,p_theta_m,theta_M,p_theta_M = x
         dr = pr/(M+m)
@@ -46,7 +82,6 @@ def integrate(u, tf, dt, x0, r0M) :
     ptheta_M  = path[:i,5]
 
     #Calculate the energy for each frame (equation of the hamiltonian)
-    #ET = pr**2 / (2*(M+m)) + ptheta_M**2 / (2*M*(ropeLength-r)**2) + ptheta_m**2 / (2*m*r**2) + M*scipy.constants.g*(ropeLength - (ropeLength-r)*np.cos(theta_M)) + m*scipy.constants.g*(ropeLength-r*np.cos(theta_m))
     ET = pr**2 / (2*(M+m)) + ptheta_M**2 / (2*M*(ropeLength-r)**2) + ptheta_m**2 / (2*m*r**2) - M*scipy.constants.g*(ropeLength-r)*np.cos(theta_M) - m*scipy.constants.g*r*np.cos(theta_m)
     dET = 100* (ET - ET[0])/ET[0]
 
