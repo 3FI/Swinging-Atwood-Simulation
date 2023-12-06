@@ -101,7 +101,7 @@ def integrate(u, tf, dt, x0, r0M) :
     ropeLength = r0M + x0[0] #Total length on BOTH sides (m & M)
 
     #We solve the ODE
-    path, i = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2)
+    path, i = custom_ODE_Solver.leapfrog(int(tf/dt),dt,x0,derivs2)
     r = path[:i,0]
     pr = path[:i,1]
     theta_m = path[:i,2]

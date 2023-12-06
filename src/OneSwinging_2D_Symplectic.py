@@ -8,6 +8,7 @@ import numpy as np
 import scipy
 import scipy.constants
 
+
 def integrate(u, tf, dt, x0) : 
     """
     The integration function for the 1 swinging case
@@ -76,7 +77,7 @@ def integrate(u, tf, dt, x0) :
     M = u
 
     #We solve the ODE
-    path, i = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2)
+    path, i = custom_ODE_Solver.leapfrog(int(tf/dt),dt,x0,derivs2)
     r = path[:i,0]
     pr = path[:i,1]
     theta = path[:i,2]
@@ -115,7 +116,7 @@ def integrateMass(m, M, tf, dt, x0) :
 
         return np.array([dr,dpr,dtheta,dp_theta]), np.array([d2r, d2pr, d2theta, d2p_theta])
 
-    path, i = custom_ODE_Solver.euler_cromer(int(tf/dt),dt,x0,derivs2)
+    path, i = custom_ODE_Solver.leapfrog(int(tf/dt),dt,x0,derivs2)
     r = path[:i,0]
     pr = path[:i,1]
     theta = path[:i,2]
